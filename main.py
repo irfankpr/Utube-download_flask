@@ -22,7 +22,10 @@ def download_video():
         res=request.form['res']
         # Fetch the YouTube video using pytube
         yt = YouTube(video_url)
-        stream = yt.streams.filter(mime_type="video/mp4", resolution=res).first()
+        try:
+            stream = yt.streams.filter(mime_type="video/mp4", resolution=res).first()
+        except:
+            return "<h1>Some thing went wrong . go back and click download again</h1>"
          # Create a temporary directory within the Flask project root directory
         temp_dir= tempfile.TemporaryDirectory(dir=app.root_path+'/temp')
         video_path = stream.download(temp_dir.name) 
